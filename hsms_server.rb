@@ -20,6 +20,10 @@ class HSMSServer < EM::Connection
   
   def receive_message(message)
     puts message
+    s_type = "\x02"
+    select_rsp = "\x00\x00\x00\x0A" + "\x00" * 5 + s_type + "\x00" * 4
+    send_data(select_rsp)
+    puts select_rsp
   end
 end
 

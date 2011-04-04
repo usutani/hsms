@@ -38,4 +38,13 @@ class TestHSMSMessage < Test::Unit::TestCase
     h.feed(data)
     assert_equal(0, h.remain_buffer_size)
   end
+  
+  def test_select_rsp
+    h = HSMSMessage.new
+    s_type = "\x02"
+    select_rsp = "\x00\x00\x00\x0A" + "\x00" * 5 + s_type + "\x00" * 4
+    h.feed(select_rsp)
+    assert_equal(10, h.length)
+  end
+
 end
