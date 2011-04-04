@@ -27,12 +27,12 @@ class HSMSFactory
   def feed(org_data)
     work = ""
     work << org_data
-    while (work.length > 0)
-      if (@message.length == 0)
+    while work.length > 0
+      if @message.length == 0
         @message.feed(work.slice!(0, HSMSMessage::LENGTH_BYTES))
       end
       remain = @message.remain_buffer_size
-      if (remain > work.length)
+      if remain > work.length
         @message.feed(work)
         return
       end

@@ -11,7 +11,7 @@ class HSMSMessage
   end
   
   def feed(data)
-    return if (remain_buffer_size == 0)
+    return if remain_buffer_size == 0
     @buffer << data
   end
   
