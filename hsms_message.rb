@@ -18,8 +18,8 @@ class HSMSMessage
   # TODO?
   # Request resend command if received length < header bytes.
   def length
-    return @length unless (@length == 0)
-    return 0 if (buffer.length < LENGTH_BYTES)
+    return @length unless @length == 0
+    return 0 if buffer.length < LENGTH_BYTES
     LENGTH_BYTES.times { |i|
       @length <<= 8
       @length += @buffer[i]
@@ -28,7 +28,7 @@ class HSMSMessage
   end
   
   def remain_buffer_size
-    return MAX_BUFFER_SIZE if (length == 0)
-    return (LENGTH_BYTES + @length - @buffer.length)
+    return MAX_BUFFER_SIZE if length == 0
+    return LENGTH_BYTES + @length - @buffer.length
   end
 end
