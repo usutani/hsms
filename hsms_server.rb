@@ -2,12 +2,24 @@ require "rubygems"
 require "eventmachine"
 
 require "hsms_factory"
+require "hsms_state"
 
 class HSMSServer < EM::Connection
-  attr_reader :factory
-  
   def initialize
     @factory = HSMSFactory.new
+    @state = HSMSState.new
+    puts @state.to_s
+  end
+  
+  def post_init
+    @state.connected
+    puts @state.to_s
+  end
+  
+  def unbind
+    @state.deselected
+    @state.disconnected
+    puts @state.to_s
   end
   
   def receive_data(data)

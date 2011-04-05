@@ -5,6 +5,14 @@ class ConnectState
     @is_connect = false
   end
   
+  def to_s
+    if @is_connect
+      "CONNECTED"
+    else
+      "NOT CONNECTED"
+    end
+  end
+  
   def connected
     @is_connect = true
   end
@@ -19,6 +27,14 @@ class SelectState
   
   def initialize
     @is_select = false
+  end
+  
+  def to_s
+    if @is_select
+      "SELECTED"
+    else
+      "NOT SELECTED"
+    end
   end
   
   def selected
@@ -37,6 +53,10 @@ class HSMSState
   def initialize
     @connect_state = ConnectState.new
     @select_state = SelectState.new
+  end
+  
+  def to_s
+    "HSMS Status: " + connect_state.to_s + ", " + select_state.to_s
   end
   
   def is_connect
