@@ -28,7 +28,7 @@ class HSMSServer < EM::Connection
 end
 
 EM.run do
-  host, port = "0.0.0.0", 10000
+  host, port = "0.0.0.0", 5000
   EM.start_server(host, port, HSMSServer)
   puts "Now accepting connections on address #{host}, port #{port}"
 end
