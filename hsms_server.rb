@@ -17,7 +17,6 @@ class HSMSServer < EM::Connection
   end
   
   def unbind
-    @state.deselected
     @state.disconnected
     puts @state.to_s
   end
@@ -30,17 +29,23 @@ class HSMSServer < EM::Connection
     @factory.clear
   end
   
-  def receive_message(message)
-    puts message
-    s_type = "\x02"
+  def send_empty_data(s_type)
     select_rsp = "\x00\x00\x00\x0A" + "\x00" * 5 + s_type + "\x00" * 4
     send_data(select_rsp)
-    puts select_rsp
   end
-end
-
-EM.run do
-  host, port = "0.0.0.0", 5000
-  EM.start_server(host, port, HSMSServer)
-  puts "Now accepting connections on address #{host}, port #{port}"
+  
+  def receive_message(message)
+    case message.s_type
+    # when 0 && @state.is_select
+    #   send_empty_data("\x00")
+    when 1
+      send_empty_data("\x02")
+      @state.selected
+      puts @state.to_s
+    when 3, 9
+      send_empty_data("\x04")
+      @state.deselected
+      puts @state.to_s
+    end
+  end
 end

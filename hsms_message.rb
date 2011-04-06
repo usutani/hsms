@@ -31,4 +31,8 @@ class HSMSMessage
     return MAX_BUFFER_SIZE if length == 0
     return LENGTH_BYTES + @length - @buffer.length
   end
+  
+  def s_type
+    return buffer[9]
+  end
 end

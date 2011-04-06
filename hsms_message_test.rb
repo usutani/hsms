@@ -45,6 +45,7 @@ class TestHSMSMessage < Test::Unit::TestCase
     select_rsp = "\x00\x00\x00\x0A" + "\x00" * 5 + s_type + "\x00" * 4
     h.feed(select_rsp)
     assert_equal(10, h.length)
+    assert_equal(2, h.s_type)
   end
 
 end
