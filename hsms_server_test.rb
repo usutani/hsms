@@ -4,7 +4,7 @@ require 'socket'
 require "hsms_server"
 
 class TestHSMSServer < Test::Unit::TestCase
-  def get_empty_data(s_type)
+  def empty_data(s_type)
     "\x00\x00\x00\x0A" + "\x00" * 5 + s_type + "\x00" * 4
   end
   
@@ -14,10 +14,10 @@ class TestHSMSServer < Test::Unit::TestCase
       EM.start_server(host, port, HSMSServer)
       fork {
         s = TCPSocket.open(host, port)
-        s.write(get_empty_data("\x01"))
-        assert_equal(get_empty_data("\x02"), s.read(14))
-        s.write(get_empty_data("\x03"))
-        assert_equal(get_empty_data("\x04"), s.read(14))
+        s.write(empty_data("\x01"))
+        assert_equal(empty_data("\x02"), s.read(14))
+        s.write(empty_data("\x03"))
+        assert_equal(empty_data("\x04"), s.read(14))
         s.close
       }
       EM.add_timer(1) { 
