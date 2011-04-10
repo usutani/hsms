@@ -29,21 +29,16 @@ class HSMSServer < EM::Connection
     @factory.clear
   end
   
-  def send_empty_data(s_type)
-    select_rsp = "\x00\x00\x00\x0A" + "\x00" * 5 + s_type + "\x00" * 4
-    send_data(select_rsp)
-  end
-  
   def receive_message(message)
     case message.s_type
-    # when 0 && @state.is_select
-    #   send_empty_data("\x00")
-    when 1
-      send_empty_data("\x02")
+    when SType::DATA_MESSAGE
+      send_data(HSMSMessage.empty_data(SType::DATA_MESSAGE))
+    when SType::SELECT_REQ
+      send_data(HSMSMessage.empty_data(SType::SELECT_RSP))
       @state.selected
       puts @state.to_s
-    when 3, 9
-      send_empty_data("\x04")
+    when SType::DESELECT_REQ, SType::SEPARATE_REQ
+      send_data(HSMSMessage.empty_data(SType::DESELECT_RSP))
       @state.deselected
       puts @state.to_s
     end

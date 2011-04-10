@@ -16,6 +16,10 @@ class TestHSMSServer < Test::Unit::TestCase
         s = TCPSocket.open(host, port)
         s.write(empty_data("\x01"))
         assert_equal(empty_data("\x02"), s.read(14))
+        3.times {
+          s.write(empty_data("\x00"))
+          assert_equal(empty_data("\x00"), s.read(14))
+        }
         s.write(empty_data("\x03"))
         assert_equal(empty_data("\x04"), s.read(14))
         s.close

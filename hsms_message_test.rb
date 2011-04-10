@@ -47,5 +47,4 @@ class TestHSMSMessage < Test::Unit::TestCase
     assert_equal(10, h.length)
     assert_equal(2, h.s_type)
   end
-
 end
